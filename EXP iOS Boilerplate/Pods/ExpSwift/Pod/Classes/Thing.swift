@@ -1,18 +1,17 @@
 //
-//  Device.swift
+//  Thing.swift
+//  Pods
 //
-//
-//  Created by Cesar on 9/8/15.
+//  Created by Cesar on 10/22/15.
 //
 //
 
 import Foundation
 
-
-public final class Device: Model,ResponseObject,ResponseCollection {
+public final class Thing: Model,ResponseObject,ResponseCollection {
     
     public let uuid: String
-
+    
     @objc required public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         if let representation = representation as? [String: AnyObject] {
             self.uuid = representation["uuid"] as! String
@@ -23,17 +22,17 @@ public final class Device: Model,ResponseObject,ResponseCollection {
         super.init(response: response, representation: representation)
     }
     
-    @objc public static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -> [Device] {
-        var devices: [Device] = []
+    @objc public static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -> [Thing] {
+        var things: [Thing] = []
         
         if let representation = representation as? [[String: AnyObject]] {
-            for deviceRepresentation in representation {
-                if let device = Device(response: response, representation: deviceRepresentation) {
-                    devices.append(device)
+            for thingRepresentation in representation {
+                if let thing = Thing(response: response, representation: thingRepresentation) {
+                    things.append(thing)
                 }
             }
         }
-        return devices
+        return things
     }
     
 }

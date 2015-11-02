@@ -36,7 +36,8 @@ public  class OrganizationChannel: Channel {
             var dictionary:Dictionary<String,Any> = self.request[id] as! Dictionary
             if((error?.isEmpty) == nil){
                 let fun = dictionary["fulfill"] as! Any -> Void
-                fun(responseDic["payload"])
+                let payload:Dictionary<String,AnyObject> = responseDic["payload"] as! Dictionary
+                fun(payload)
             }else{
                 let errorLog:String = error!
                 let rej = dictionary["reject"] as! NSError -> Void
@@ -123,5 +124,18 @@ public  class OrganizationChannel: Channel {
         var name:String = messageDic["name"] as! String
         responders.updateValue(callback, forKey: name)
     }
+    
+    /**
+    Fling content
+    @param  uuid String.
+    @return
+    */
+    public func fling(uuid:String) -> Void{
+        var payload:Dictionary<String,String> = ["uuid":uuid]
+        var msg:Dictionary<String,AnyObject> = ["type":"broadcast","channel":self.channel,"name": "fling","payload":payload]
+        self.socketOrg.emit(Config.SOCKET_MESSAGE,msg)
+    }
+
+
     
 }

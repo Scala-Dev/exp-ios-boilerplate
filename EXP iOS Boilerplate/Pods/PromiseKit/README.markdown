@@ -8,9 +8,9 @@ UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 when(fetchImage(), getLocation()).then { image, location in
     self.imageView.image = image;
     self.label.text = "Buy your cat a house in \(location)"
-}.always {
+}.finally {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-}.error { error in
+}.catch { error in
     UIAlertView(…).show()
 }
 ```
@@ -20,15 +20,10 @@ PromiseKit is a thoughtful and complete implementation of promises for iOS and O
 [![Join the chat at https://gitter.im/mxcl/PromiseKit](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mxcl/PromiseKit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![](https://img.shields.io/cocoapods/v/PromiseKit.svg?label=Current%20Release)  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
 
 
-# PromiseKit 3
+# Swift 2
 
-In Swift 2.0 `catch` and `defer` became reserved keywords mandating we rename our functions with these names. This forced a major semantic version change on PromiseKit and thus we took the opportunity to make other minor (source compatability breaking) improvements.
+The `swift-2.0-beta` branch has a working Swift 2 implementation. Please be aware that both `catch` and `defer` are Swift 2 keywords so we have had to rename these functions and our new choices are not yet final.
 
-Thus if you cannot afford to adapt to PromiseKit 3 but still want to use Xcode-7.0/Swift-2.0 we provide a [minimal changes branch] where `catch` and `defer` are renamed `catch_` and `defer_` and all other changes are the bare minimum to make PromiseKit 2 compile against Swift 2.
-
-If you still are using Xcode 6 and Swift 1.2 then use PromiseKit 2.
-
-[minimal changes branch]: https://github.com/mxcl/PromiseKit/tree/swift-2.0-minimal-changes
 
 # PromiseKit 2
 
@@ -56,11 +51,9 @@ pod "PromiseKit", "~> 2.0"
 github "mxcl/PromiseKit" ~> 2.0
 ```
 
-*Note*: In order to avoid linking nearly all system frameworks with PromiseKit, the convenience categories have not been included with the Carthage framework . You must manually copy the categories you need in from the Carthage checkout.
-
 ### Standalone Distributions
 
-* [iOS 8 & OS X 10.9  Frameworks](https://github.com/mxcl/PromiseKit/releases/download/2.2.2/PromiseKit-2.2.2.zip) (Binaries)
+* [iOS 8 & OS X 10.9  Frameworks](https://github.com/mxcl/PromiseKit/releases/download/2.2.1/PromiseKit-2.2.1.zip) (Binaries)
 
 *Please note*, the preferred way to integrate PromiseKit is CocoaPods or Carthage.
 

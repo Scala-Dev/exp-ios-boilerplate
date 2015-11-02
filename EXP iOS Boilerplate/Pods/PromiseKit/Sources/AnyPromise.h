@@ -3,7 +3,7 @@
 #import <Foundation/NSObject.h>
 #import "Umbrella.h"
 
-typedef void (^PMKResolver)(id __nullable);
+typedef void (^PMKResolver)(id);
 
 typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
     PMKCatchPolicyAllErrors,
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
  @see thenOn
  @see thenInBackground
 */
-- (AnyPromise * __nonnull (^ __nonnull)(id __nonnull))then;
+- (AnyPromise *(^)(id))then;
 
 
 /**
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
  @see then
  @see thenOn
 */
-- (AnyPromise * __nonnull(^ __nonnull)(id __nonnull))thenInBackground;
+- (AnyPromise *(^)(id))thenInBackground;
 
 /**
  The provided block is executed on the dispatch queue of your choice when the receiver is fulfilled.
@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
  @see then
  @see thenInBackground
 */
-- (AnyPromise * __nonnull(^ __nonnull)(dispatch_queue_t __nonnull, id __nonnull))thenOn;
+- (AnyPromise *(^)(dispatch_queue_t, id))thenOn;
 
 #ifndef __cplusplus
 /**
@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
 
  @see catchWithPolicy
 */
-- (AnyPromise * __nonnull(^ __nonnull)(id __nonnull))catch;
+- (AnyPromise *(^)(id))catch;
 #endif
 
 /**
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
 
  @see catch
 */
-- (AnyPromise * __nonnull(^ __nonnull)(PMKCatchPolicy, id __nonnull))catchWithPolicy;
+- (AnyPromise *(^)(PMKCatchPolicy, id))catchWithPolicy;
 
 /**
  The provided block is executed when the receiver is resolved.
@@ -98,14 +98,14 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
 
  @see finallyOn
 */
-- (AnyPromise * __nonnull(^ __nonnull)(dispatch_block_t __nonnull))finally;
+- (AnyPromise *(^)(dispatch_block_t))finally;
 
 /**
  The provided block is executed on the dispatch queue of your choice when the receiver is resolved.
 
  @see finally
  */
-- (AnyPromise * __nonnull(^ __nonnull)(dispatch_queue_t __nonnull, dispatch_block_t __nonnull))finallyOn;
+- (AnyPromise *(^)(dispatch_queue_t, dispatch_block_t))finallyOn;
 
 /**
  The value of the asynchronous task this promise represents.
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
  @return If `resolved`, the object that was used to resolve this promise;
  if `pending`, nil.
 */
-- (id __nullable)value;
+- (id)value;
 
 /**
  Creates a resolved promise.
@@ -132,7 +132,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
 
  @return A resolved promise.
 */
-+ (instancetype __nonnull)promiseWithValue:(id __nullable)value;
++ (instancetype)promiseWithValue:(id)value;
 
 /**
  Create a new promise that resolves with the provided block.
@@ -163,7 +163,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
  @see http://promisekit.org/sealing-your-own-promises/
  @see http://promisekit.org/wrapping-delegation/
 */
-+ (instancetype __nonnull)promiseWithResolverBlock:(void (^ __nonnull)(PMKResolver __nonnull resolve))resolverBlock;
++ (instancetype)promiseWithResolverBlock:(void (^)(PMKResolver resolve))resolverBlock;
 
 /**
  Create a new promise with an associated resolver.
@@ -187,7 +187,7 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
 
  @see promiseWithResolverBlock:
 */
-- (instancetype __nonnull)initWithResolver:(PMKResolver __strong __nonnull * __nonnull)resolver;
+- (instancetype)initWithResolver:(PMKResolver __strong *)resolver;
 
 @end
 
@@ -195,16 +195,16 @@ typedef NS_ENUM(NSInteger, PMKCatchPolicy) {
 
 @interface AnyPromise (Unavailable)
 
-- (instancetype __nonnull)init __attribute__((unavailable("It is illegal to create an unresolvable promise.")));
-+ (instancetype __nonnull)new __attribute__((unavailable("It is illegal to create an unresolvable promise.")));
+- (instancetype)init __attribute__((unavailable("It is illegal to create an unresolvable promise.")));
++ (instancetype)new __attribute__((unavailable("It is illegal to create an unresolvable promise.")));
 
 @end
 
 
 
-typedef void (^PMKAdapter)(id __nullable, NSError * __nullable);
-typedef void (^PMKIntegerAdapter)(NSInteger, NSError * __nullable);
-typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable);
+typedef void (^PMKAdapter)(id, NSError *);
+typedef void (^PMKIntegerAdapter)(NSInteger, NSError *);
+typedef void (^PMKBooleanAdapter)(BOOL, NSError *);
 
 @interface AnyPromise (Adapters)
 
@@ -226,7 +226,7 @@ typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable);
 
  @see http://promisekit.org/sealing-your-own-promises/
  */
-+ (instancetype __nonnull)promiseWithAdapterBlock:(void (^ __nonnull)(PMKAdapter __nonnull adapter))block;
++ (instancetype)promiseWithAdapterBlock:(void (^)(PMKAdapter adapter))block;
 
 /**
  Create a new promise by adapting an existing asynchronous system.
@@ -238,7 +238,7 @@ typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable);
 
  @see promiseWithAdapter
  */
-+ (instancetype __nonnull)promiseWithIntegerAdapterBlock:(void (^ __nonnull)(PMKIntegerAdapter __nonnull adapter))block;
++ (instancetype)promiseWithIntegerAdapterBlock:(void (^)(PMKIntegerAdapter adapter))block;
 
 /**
  Create a new promise by adapting an existing asynchronous system.
@@ -247,7 +247,7 @@ typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable);
 
  @see promiseWithAdapter
  */
-+ (instancetype __nonnull)promiseWithBooleanAdapterBlock:(void (^ __nonnull)(PMKBooleanAdapter __nonnull adapter))block;
++ (instancetype)promiseWithBooleanAdapterBlock:(void (^)(PMKBooleanAdapter adapter))block;
 
 @end
 
@@ -265,4 +265,4 @@ typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable);
 */
 #define PMKManifold(...) __PMKManifold(__VA_ARGS__, 3, 2, 1)
 #define __PMKManifold(_1, _2, _3, N, ...) __PMKArrayWithCount(N, _1, _2, _3)
-extern id __nonnull __PMKArrayWithCount(NSUInteger, ...);
+extern id __PMKArrayWithCount(NSUInteger, ...);

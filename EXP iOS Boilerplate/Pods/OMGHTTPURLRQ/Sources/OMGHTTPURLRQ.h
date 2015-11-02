@@ -11,24 +11,14 @@ FOUNDATION_EXPORT const unsigned char OMGHTTPURLRQVersionString[];
 #import "OMGUserAgent.h"
 
 
-#if __has_feature(nullability) && defined(NS_ASSUME_NONNULL_BEGIN)
-NS_ASSUME_NONNULL_BEGIN
-#else
-#define nullable
-#endif
-
-/**
- The error will either be a JSON error (NSCocoaDomain :/) or in the NSURLErrorDomain
- with code: NSURLErrorUnsupportedURL.
-*/
 @interface OMGHTTPURLRQ : NSObject
 
-+ (nullable NSMutableURLRequest *)GET:(NSString *)url :(nullable NSDictionary *)parameters error:(NSError **)error;
-+ (nullable NSMutableURLRequest *)POST:(NSString *)url :(nullable id)parametersOrMultipartFormData error:(NSError **)error;
-+ (nullable NSMutableURLRequest *)POST:(NSString *)url JSON:(nullable id)JSONObject error:(NSError **)error;
-+ (nullable NSMutableURLRequest *)PUT:(NSString *)url :(nullable NSDictionary *)parameters error:(NSError **)error;
-+ (nullable NSMutableURLRequest *)PUT:(NSString *)url JSON:(nullable id)JSONObject error:(NSError **)error;
-+ (nullable NSMutableURLRequest *)DELETE:(NSString *)url :(nullable NSDictionary *)parameters error:(NSError **)error;
++ (NSMutableURLRequest *)GET:(NSString *)url :(NSDictionary *)parameters;
++ (NSMutableURLRequest *)POST:(NSString *)url :(id)parametersOrMultipartFormData;
++ (NSMutableURLRequest *)POST:(NSString *)url JSON:(id)JSONObject;
++ (NSMutableURLRequest *)PUT:(NSString *)url :(NSDictionary *)parameters;
++ (NSMutableURLRequest *)PUT:(NSString *)url JSON:(id)JSONObject;
++ (NSMutableURLRequest *)DELETE:(NSString *)url :(NSDictionary *)parameters;
 
 @end
 
@@ -42,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  The `filename` parameter is optional. The content-type is optional, and 
  if left `nil` will default to *octet-stream*.
 */
-- (void)addFile:(NSData *)data parameterName:(NSString *)parameterName filename:(nullable NSString *)filename contentType:(nullable NSString *)contentType;
+- (void)addFile:(NSData *)data parameterName:(NSString *)parameterName filename:(NSString *)filename contentType:(NSString *)contentType;
 
 - (void)addText:(NSString *)text parameterName:(NSString *)parameterName;
 
@@ -55,10 +45,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addParameters:(NSDictionary *)parameters;
 
 @end
-
-
-#if __has_feature(nullability) && defined(NS_ASSUME_NONNULL_END)
-NS_ASSUME_NONNULL_END
-#else
-#undef nullable
-#endif

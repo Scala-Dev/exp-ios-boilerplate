@@ -1,8 +1,6 @@
-#import <CoreFoundation/CFURL.h>
-#import <Foundation/NSError.h>
+ #import <CoreFoundation/CFURL.h>
 #import <Foundation/NSJSONSerialization.h>
 #import <Foundation/NSURL.h>
-#import <Foundation/NSURLError.h>
 #import "OMGHTTPURLRQ.h"
 #import "OMGUserAgent.h"
 #import "OMGFormURLEncode.h"
@@ -13,9 +11,6 @@ static inline NSMutableURLRequest *OMGMutableURLRequest() {
     [rq setValue:OMGUserAgent() forHTTPHeaderField:@"User-Agent"];
     return rq;
 }
-
-#define OMGInvalidURLErrorMake() \
-    [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnsupportedURL userInfo:@{NSLocalizedDescriptionKey: @"The provided URL was invalid."}]
 
 
 @implementation OMGMultipartFormData {
@@ -70,31 +65,18 @@ static inline NSMutableURLRequest *OMGMutableURLRequest() {
 
 @implementation OMGHTTPURLRQ
 
-+ (NSMutableURLRequest *)GET:(NSString *)urlString :(NSDictionary *)params error:(NSError **)error {
++ (NSMutableURLRequest *)GET:(NSString *)url :(NSDictionary *)params {
     id queryString = OMGFormURLEncode(params);
-    if (queryString) urlString = [urlString stringByAppendingFormat:@"?%@", queryString];
-
-    id url = [NSURL URLWithString:urlString];
-    if (!url) {
-        if (error) *error = OMGInvalidURLErrorMake();
-        return nil;
-    }
-
+    if (queryString) url = [url stringByAppendingFormat:@"?%@", queryString];
     NSMutableURLRequest *rq = OMGMutableURLRequest();
     rq.HTTPMethod = @"GET";
-    rq.URL = url;
+    rq.URL = [NSURL URLWithString:url];
     return rq;
 }
 
-static NSMutableURLRequest *OMGFormURLEncodedRequest(NSString *urlString, NSString *method, NSDictionary *parameters, NSError **error) {
-    id url = [NSURL URLWithString:urlString];
-    if (!url) {
-        if (error) *error = OMGInvalidURLErrorMake();
-        return nil;
-    }
-
+static NSMutableURLRequest *OMGFormURLEncodedRequest(NSString *url, NSString *method, NSDictionary *parameters) {
     NSMutableURLRequest *rq = OMGMutableURLRequest();
-    rq.URL = url;
+    rq.URL = [NSURL URLWithString:url];
     rq.HTTPMethod = method;
     
     id queryString = OMGFormURLEncode(parameters);
@@ -107,16 +89,10 @@ static NSMutableURLRequest *OMGFormURLEncodedRequest(NSString *urlString, NSStri
     return rq;
 }
 
-+ (NSMutableURLRequest *)POST:(NSString *)urlString :(id)body error:(NSError **)error {
++ (NSMutableURLRequest *)POST:(NSString *)url :(id)body {
     if (![body isKindOfClass:[OMGMultipartFormData class]]) {
-        return OMGFormURLEncodedRequest(urlString, @"POST", body, error);
+        return OMGFormURLEncodedRequest(url, @"POST", body);
     } else {
-        id url = [NSURL URLWithString:urlString];
-        if (!url) {
-            if (error) *error = OMGInvalidURLErrorMake();
-            return nil;
-        }
-
         OMGMultipartFormData *multipartFormData = (id)body;
         id const charset = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
         id const contentType = [NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@", charset, multipartFormData->boundary];
@@ -126,7 +102,7 @@ static NSMutableURLRequest *OMGFormURLEncodedRequest(NSString *urlString, NSStri
         [data appendData:[lastLine dataUsingEncoding:NSUTF8StringEncoding]];
 
         NSMutableURLRequest *rq = OMGMutableURLRequest();
-        [rq setURL:url];
+        [rq setURL:[NSURL URLWithString:url]];
         [rq setHTTPMethod:@"POST"];
         [rq addValue:contentType forHTTPHeaderField:@"Content-Type"];
         [rq setHTTPBody:data];
@@ -134,39 +110,28 @@ static NSMutableURLRequest *OMGFormURLEncodedRequest(NSString *urlString, NSStri
     }
 }
 
-+ (NSMutableURLRequest *)POST:(NSString *)urlString JSON:(id)params error:(NSError **)error {
-    if (error) *error = nil;
-
-    id url = [NSURL URLWithString:urlString];
-    if (!url) {
-        if (error) *error = OMGInvalidURLErrorMake();
-        return nil;
-    }
-
-    id JSONData = [NSJSONSerialization dataWithJSONObject:params options:(NSJSONWritingOptions)0 error:error];
-    if (error && *error) return nil;
-
++ (NSMutableURLRequest *)POST:(NSString *)url JSON:(id)params {
     NSMutableURLRequest *rq = OMGMutableURLRequest();
-    [rq setURL:url];
-    [rq setHTTPMethod:@"POST"];
-    [rq setHTTPBody:JSONData];
+    rq.URL = [NSURL URLWithString:url];
+    rq.HTTPMethod = @"POST";
+    rq.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:(NSJSONWritingOptions)0 error:nil];
     [rq setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [rq setValue:@"json" forHTTPHeaderField:@"Data-Type"];
     return rq;
 }
 
-+ (NSMutableURLRequest *)PUT:(NSString *)url :(NSDictionary *)parameters error:(NSError **)error {
-    return OMGFormURLEncodedRequest(url, @"PUT", parameters, error);
++ (NSMutableURLRequest *)PUT:(NSString *)url :(NSDictionary *)parameters {
+    return OMGFormURLEncodedRequest(url, @"PUT", parameters);
 }
 
-+ (NSMutableURLRequest *)PUT:(NSString *)url JSON:(id)params error:(NSError **)error {
-    NSMutableURLRequest *rq = [OMGHTTPURLRQ POST:url JSON:params error:error];
++ (NSMutableURLRequest *)PUT:(NSString *)url JSON:(id)params {
+    NSMutableURLRequest *rq = [OMGHTTPURLRQ POST:url JSON:params];
     rq.HTTPMethod = @"PUT";
     return rq;
 }
 
-+ (NSMutableURLRequest *)DELETE:(NSString *)url :(NSDictionary *)parameters error:(NSError **)error {
-    return OMGFormURLEncodedRequest(url, @"DELETE", parameters, error);
++ (NSMutableURLRequest *)DELETE:(NSString *)url :(NSDictionary *)parameters {
+    return OMGFormURLEncodedRequest(url, @"DELETE", parameters);
 }
 
 @end

@@ -15,7 +15,7 @@
 		5CB3154F1BE81741006A7599 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CB3154E1BE81741006A7599 /* Images.xcassets */; };
 		5CB315521BE81741006A7599 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CB315501BE81741006A7599 /* LaunchScreen.xib */; };
 		5CB3155E1BE81741006A7599 /* EXP_iOS_BoilerplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB3155D1BE81741006A7599 /* EXP_iOS_BoilerplateTests.swift */; };
-		6408D046C781CAE1766A090F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B911F88B1D6039F3F809B0 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		6408D046C781CAE1766A090F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B911F88B1D6039F3F809B0 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

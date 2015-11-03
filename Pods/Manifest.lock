@@ -39,7 +39,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ExpSwift:
-    :commit: 837452e5fee2004e4ec23f6bf83c0d2619ceb491
+    :commit: 83201a06823ebe68582f506708f0aa3d969fd72c
     :git: https://github.com/ScalaInc/exp-ios-sdk.git
 
 SPEC CHECKSUMS:
@@ -51,4 +51,4 @@ SPEC CHECKSUMS:
   PromiseKit: 9c92257e39abf4b634533d44268592dfc6e4b5c2
   Socket.IO-Client-Swift: 461a98fde2b27b61f5c833889a577d0824bd5ee4
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.38.2

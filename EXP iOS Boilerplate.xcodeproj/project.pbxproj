@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3B04B36A1BE869D700883286 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04B3691BE869D700883286 /* FolderViewController.swift */; };
-		3B04B36C1BE86BA100883286 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04B36B1BE86BA100883286 /* ContentCollectionViewCell.swift */; };
+		5C50B2CB1BE912BF000B0F11 /* FolderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C50B2CA1BE912BF000B0F11 /* FolderViewCell.swift */; };
+		5C50B2CD1BE91311000B0F11 /* ContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C50B2CC1BE91311000B0F11 /* ContentViewCell.swift */; };
+		5C50B2CF1BE91E72000B0F11 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C50B2CE1BE91E72000B0F11 /* SectionHeaderView.swift */; };
 		5CB315431BE81741006A7599 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB315421BE81741006A7599 /* AppDelegate.swift */; };
 		5CB3154A1BE81741006A7599 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB315491BE81741006A7599 /* DetailViewController.swift */; };
 		5CB3154D1BE81741006A7599 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CB3154B1BE81741006A7599 /* Main.storyboard */; };
@@ -30,9 +32,11 @@
 
 /* Begin PBXFileReference section */
 		3B04B3691BE869D700883286 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
-		3B04B36B1BE86BA100883286 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		423EED0A319FE88E787154E9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		5A631BAEC998D83EAB92C8D2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		5C50B2CA1BE912BF000B0F11 /* FolderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewCell.swift; sourceTree = "<group>"; };
+		5C50B2CC1BE91311000B0F11 /* ContentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewCell.swift; sourceTree = "<group>"; };
+		5C50B2CE1BE91E72000B0F11 /* SectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		5CB3153D1BE81741006A7599 /* EXP iOS Boilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EXP iOS Boilerplate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CB315411BE81741006A7599 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CB315421BE81741006A7599 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,11 +103,13 @@
 				5CB315421BE81741006A7599 /* AppDelegate.swift */,
 				3B04B3691BE869D700883286 /* FolderViewController.swift */,
 				5CB315491BE81741006A7599 /* DetailViewController.swift */,
-				3B04B36B1BE86BA100883286 /* ContentCollectionViewCell.swift */,
 				5CB3154B1BE81741006A7599 /* Main.storyboard */,
 				5CB3154E1BE81741006A7599 /* Images.xcassets */,
 				5CB315501BE81741006A7599 /* LaunchScreen.xib */,
 				5CB315401BE81741006A7599 /* Supporting Files */,
+				5C50B2CA1BE912BF000B0F11 /* FolderViewCell.swift */,
+				5C50B2CC1BE91311000B0F11 /* ContentViewCell.swift */,
+				5C50B2CE1BE91E72000B0F11 /* SectionHeaderView.swift */,
 			);
 			path = "EXP iOS Boilerplate";
 			sourceTree = "<group>";
@@ -296,8 +302,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B04B36A1BE869D700883286 /* FolderViewController.swift in Sources */,
-				3B04B36C1BE86BA100883286 /* ContentCollectionViewCell.swift in Sources */,
+				5C50B2CF1BE91E72000B0F11 /* SectionHeaderView.swift in Sources */,
+				5C50B2CD1BE91311000B0F11 /* ContentViewCell.swift in Sources */,
 				5CB315431BE81741006A7599 /* AppDelegate.swift in Sources */,
+				5C50B2CB1BE912BF000B0F11 /* FolderViewCell.swift in Sources */,
 				5CB3154A1BE81741006A7599 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

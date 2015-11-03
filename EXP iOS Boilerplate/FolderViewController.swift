@@ -14,22 +14,25 @@ class FolderViewController: UICollectionViewController,UICollectionViewDelegate,
     
     var folderUuid = "root"
 
-    var thumbnailArray:[UIImage] = []
+    var folderArray:[ContentNode] = []
     var contentArray:[ContentNode] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func viewControllerInit(){
+    func viewControllerInit() {
+        
         ExpSwift.getContentNode(folderUuid).then { (content: ContentNode) -> Void  in
+            self.title = content.get("path") as? String
+            
             content.getChildren().then { (children: [ContentNode]) -> Void in
                 for child in children {
-                    let url = NSURL(string: child.getUrl())
-                    let data = NSData(contentsOfURL: url!)
-                    var image = UIImage(data: data!)
-                    
-                    self.thumbnailArray.append(image!)
+                    if (child.get("subtype") as? String == "scala:content:folder") {
+                        self.folderArray.append(child)
+                    } else {
+                        self.contentArray.append(child)
+                    }
                 }
                 
                 self.collectionView!.reloadData()
@@ -45,21 +48,48 @@ class FolderViewController: UICollectionViewController,UICollectionViewDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.contentArray.count
+    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 2
     }
     
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return (section == 0) ? self.folderArray.count : self.contentArray.count
+    }
+    
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier:"sectionHeader", forIndexPath: indexPath) as! SectionHeaderView
+
+        headerView.headerLabel.text = (indexPath.section == 0) ? "Folders" : "Files";
+        
+        return headerView;
+
+    }
+    
+    
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ContentCollectionViewCell
-        cell.imageView?.image = self.thumbnailArray[indexPath.row]
-        return cell
+        if (indexPath.section == 0) {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("folderCell", forIndexPath: indexPath) as! FolderViewCell
+            
+            let child = self.folderArray[indexPath.row]
+            
+            cell.setContentNode(child)
+            cell.backgroundColor = UIColor.lightGrayColor()
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("contentCell", forIndexPath: indexPath) as! ContentViewCell
+            
+            let child = self.contentArray[indexPath.row]
+            
+            cell.setContentNode(child)
+            cell.backgroundColor = UIColor.lightGrayColor()
+            return cell
+        }
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let selectedContent = self.contentArray[indexPath.row]
-        
-        if (selectedContent.get("subtype") as! String == "scala:content:folder") {
-            self.performSegueWithIdentifier("showDetail", sender: self)
+        if (indexPath.section == 0) {
+            self.performSegueWithIdentifier("showFolder", sender: self)
         } else {
             self.performSegueWithIdentifier("showDetail", sender: self)
         }
@@ -69,13 +99,16 @@ class FolderViewController: UICollectionViewController,UICollectionViewDelegate,
         if segue.identifier == "showDetail" {
             let indexPaths = self.collectionView!.indexPathsForSelectedItems()
             let indexPath = indexPaths[0] as! NSIndexPath
-            let vc = segue.destinationViewController as! DetailViewController
+            let nav = segue.destinationViewController as! UINavigationController
+            let vc = nav.viewControllers.last as! DetailViewController
             vc.content = self.contentArray[indexPath.row]
         } else if segue.identifier == "showFolder" {
             let indexPaths = self.collectionView!.indexPathsForSelectedItems()
             let indexPath = indexPaths[0] as! NSIndexPath
-            let vc = segue.destinationViewController as! FolderViewController
-            vc.folderUuid = self.contentArray[indexPath.row].uuid
+            let nav = segue.destinationViewController as! UINavigationController
+            let vc = nav.viewControllers.last as! FolderViewController
+            vc.folderUuid = self.folderArray[indexPath.row].uuid
+            vc.viewControllerInit()
         }
     }
     

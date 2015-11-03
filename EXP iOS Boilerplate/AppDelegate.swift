@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import ExpSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -24,7 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
         let controller = masterNavigationController.topViewController as! FolderViewController
-        controller.viewControllerInit()
+        
+        ExpSwift.start([
+                "host":"http://localhost:9000",
+                "networkUuid":"a985ee57-356a-4a7a-a3ab-cecc441d38de",
+                "apiKey":"peanut butter jelly time"
+            ]).then{ result -> Void in
+                controller.viewControllerInit()
+            }
+        
+
         return true
     }
 

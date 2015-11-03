@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B04B36A1BE869D700883286 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04B3691BE869D700883286 /* FolderViewController.swift */; };
+		3B04B36C1BE86BA100883286 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04B36B1BE86BA100883286 /* ContentCollectionViewCell.swift */; };
 		5CB315431BE81741006A7599 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB315421BE81741006A7599 /* AppDelegate.swift */; };
-		5CB315461BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CB315441BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodeld */; };
-		5CB315481BE81741006A7599 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB315471BE81741006A7599 /* MasterViewController.swift */; };
 		5CB3154A1BE81741006A7599 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB315491BE81741006A7599 /* DetailViewController.swift */; };
 		5CB3154D1BE81741006A7599 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CB3154B1BE81741006A7599 /* Main.storyboard */; };
 		5CB3154F1BE81741006A7599 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CB3154E1BE81741006A7599 /* Images.xcassets */; };
@@ -29,13 +29,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B04B3691BE869D700883286 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
+		3B04B36B1BE86BA100883286 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		423EED0A319FE88E787154E9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		5A631BAEC998D83EAB92C8D2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5CB3153D1BE81741006A7599 /* EXP iOS Boilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EXP iOS Boilerplate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CB315411BE81741006A7599 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CB315421BE81741006A7599 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5CB315451BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EXP_iOS_Boilerplate.xcdatamodel; sourceTree = "<group>"; };
-		5CB315471BE81741006A7599 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		5CB315491BE81741006A7599 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		5CB3154C1BE81741006A7599 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5CB3154E1BE81741006A7599 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -97,12 +97,12 @@
 			isa = PBXGroup;
 			children = (
 				5CB315421BE81741006A7599 /* AppDelegate.swift */,
-				5CB315471BE81741006A7599 /* MasterViewController.swift */,
+				3B04B3691BE869D700883286 /* FolderViewController.swift */,
 				5CB315491BE81741006A7599 /* DetailViewController.swift */,
+				3B04B36B1BE86BA100883286 /* ContentCollectionViewCell.swift */,
 				5CB3154B1BE81741006A7599 /* Main.storyboard */,
 				5CB3154E1BE81741006A7599 /* Images.xcassets */,
 				5CB315501BE81741006A7599 /* LaunchScreen.xib */,
-				5CB315441BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodeld */,
 				5CB315401BE81741006A7599 /* Supporting Files */,
 			);
 			path = "EXP iOS Boilerplate";
@@ -295,9 +295,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CB315461BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodeld in Sources */,
+				3B04B36A1BE869D700883286 /* FolderViewController.swift in Sources */,
+				3B04B36C1BE86BA100883286 /* ContentCollectionViewCell.swift in Sources */,
 				5CB315431BE81741006A7599 /* AppDelegate.swift in Sources */,
-				5CB315481BE81741006A7599 /* MasterViewController.swift in Sources */,
 				5CB3154A1BE81741006A7599 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,19 +516,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		5CB315441BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				5CB315451BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodel */,
-			);
-			currentVersion = 5CB315451BE81741006A7599 /* EXP_iOS_Boilerplate.xcdatamodel */;
-			path = EXP_iOS_Boilerplate.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 5CB315351BE81741006A7599 /* Project object */;
 }

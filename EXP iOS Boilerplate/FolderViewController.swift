@@ -10,7 +10,7 @@ import UIKit
 import ExpSwift
 
 
-class FolderViewController: UICollectionViewController,UICollectionViewDelegate,UICollectionViewDataSource {
+class FolderViewController: UICollectionViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     var folderUuid = "root"
 
@@ -92,6 +92,14 @@ class FolderViewController: UICollectionViewController,UICollectionViewDelegate,
             self.performSegueWithIdentifier("showFolder", sender: self)
         } else {
             self.performSegueWithIdentifier("showDetail", sender: self)
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        if (indexPath.section == 0) {
+            return CGSize(width: 100, height: 50)
+        } else {
+            return CGSize(width: 100, height: 100)
         }
     }
     

@@ -15,6 +15,12 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var flingButton: UIButton!
     
+    @IBAction func sendfling(sender: AnyObject) {
+        if let detail: ContentNode = self.content {
+            let channel = ExpSwift.getChannel(SOCKET_CHANNELS.ORGANIZATION) as! OrganizationChannel
+            channel.fling(detail.uuid)
+        }
+    }
     var content:ContentNode? = nil
 
     func configureView() {

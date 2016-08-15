@@ -14,9 +14,9 @@ class FolderViewCell: UICollectionViewCell {
     
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     
-    var content:ContentNode?
+    var content:Content?
     
-    func setContentNode(content:ContentNode?) {
+    func setContentNode(content:Content?) {
         self.content = content
         
         if let label = self.detailDescriptionLabel {

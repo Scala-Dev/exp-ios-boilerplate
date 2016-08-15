@@ -14,11 +14,10 @@ class ContentViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
-    var content:ContentNode?
+    var content:Content?
     
-    func setContentNode(content:ContentNode?) {
+    func setContentNode(content:Content?) {
         self.content = content
-        
         if let urlValue = content!.getVariantUrl("320.png") {
             let url = NSURL(string: urlValue)
             let data = NSData(contentsOfURL: url!)

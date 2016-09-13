@@ -108,6 +108,10 @@
       "minimum-system-version" : "7.0",
       "subtype" : "retina4",
       "scale" : "2x"
+    },
+    {
+      "filename" : "screen-ipad-portrait-ipadpro-1.png",
+      "unassigned" : true
     }
   ],
   "info" : {

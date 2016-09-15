@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let controller = masterNavigationController.topViewController as! FolderViewController
         
         ExpSwift.start([
-                "host":"https://api-staging.goexp.io",
+                "host":"http://localhost:9000",
                 "networkUuid":"1213ecfa-3c41-4b94-b047-d1c887f96400",
                 "apiKey":"0c4c6f4bc040ebe37f40ba2429f96e88de0072dbc92b4c656453272fe16302e096769234c86ff573adef7696ac93542f"
             ]).then{ result -> Void in

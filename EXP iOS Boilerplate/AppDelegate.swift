@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Override point for customization after application launch.
         let splitViewController = self.window!.rootViewController as! UISplitViewController
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
+        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
         splitViewController.delegate = self
 
         let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         ExpSwift.start([
                 "host":"http://localhost:9000",
-                "networkUuid":"a985ee57-356a-4a7a-a3ab-cecc441d38de",
-                "apiKey":"peanut butter jelly time"
+                "networkUuid":"1213ecfa-3c41-4b94-b047-d1c887f96400",
+                "apiKey":"0c4c6f4bc040ebe37f40ba2429f96e88de0072dbc92b4c656453272fe16302e096769234c86ff573adef7696ac93542f"
             ]).then{ result -> Void in
                 controller.viewControllerInit()
             }
@@ -96,18 +96,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("EXP_iOS_Boilerplate.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+//        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+//            coordinator = nil
+//            // Report any error we got.
+//            var dict = [String: AnyObject]()
+//            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
+//            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+//            dict[NSUnderlyingErrorKey] = error
+//            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+//            // Replace this with code to handle the error appropriately.
+//            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//            NSLog("Unresolved error \(error), \(error!.userInfo)")
+//            abort()
+//        }
+        do {
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+        } catch {
+            fatalError("Failed to initialize the application's saved data: \(error)")
             coordinator = nil
             // Report any error we got.
-            var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
-            dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+//            var dict = [String: AnyObject]()
+//            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
+//            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+//            dict[NSUnderlyingErrorKey] = error
+//            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            NSLog("Unresolved error \(error), \(error)")
             abort()
+
         }
         
         return coordinator
@@ -129,10 +146,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
+            do {
+                try moc.save()
+            } catch {
+                fatalError("Failure to save context: \(error)")
+                NSLog("Unresolved error \(error), \(error)")
                 abort()
             }
         }

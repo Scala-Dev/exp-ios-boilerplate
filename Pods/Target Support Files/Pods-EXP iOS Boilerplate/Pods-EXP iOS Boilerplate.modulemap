@@ -1,0 +1,6 @@
+framework module Pods_EXP_iOS_Boilerplate {
+  umbrella header "Pods-EXP iOS Boilerplate-umbrella.h"
+
+  export *
+  module * { export * }
+}

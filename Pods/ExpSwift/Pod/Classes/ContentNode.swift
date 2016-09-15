@@ -1,5 +1,5 @@
 //
-//  Content.swift
+//  ContentNode.swift
 //  Pods
 //
 //  Created by Cesar on 9/23/15.
@@ -8,6 +8,8 @@
 
 import Foundation
 import PromiseKit
+import Alamofire
+
 
 public final class ContentNode: Model,ResponseObject,ResponseCollection {
 
@@ -23,7 +25,7 @@ public final class ContentNode: Model,ResponseObject,ResponseCollection {
         case UNKNOWN = ""
     }
     
-    @objc required public init?(response: NSHTTPURLResponse, representation: AnyObject) {
+    required public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         if let representation = representation as? [String: AnyObject] {
             self.uuid = representation["uuid"] as! String
             self.subtype = CONTENT_TYPES(rawValue: representation["subtype"] as! String)!
@@ -42,7 +44,7 @@ public final class ContentNode: Model,ResponseObject,ResponseCollection {
         document["children"] = nil
     }
     
-    @objc public static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -> [ContentNode] {
+     public static func collection(response response: NSHTTPURLResponse, representation: AnyObject) -> [ContentNode] {
         var contents: [ContentNode] = []
             if let representation = representation as? [[String: AnyObject]] {
                 for contentRepresentation in representation {
@@ -59,14 +61,25 @@ public final class ContentNode: Model,ResponseObject,ResponseCollection {
     @return Promise<[Content]>.
     */
     public func getChildren() ->Promise<[ContentNode]>{
-        let childrenPromise = Promise<[ContentNode]> { fulfill, reject in
-            if(!children.isEmpty){
+        if (!children.isEmpty) {
+            return Promise<[ContentNode]> { fulfill, reject in
                 fulfill(children)
-            }else{
-                fulfill([])
+            }
+        } else {
+            return Promise { fulfill, reject in
+                Alamofire.request(Router.getContent(uuid) )
+                    .responseObject { (response: Response<ContentNode, NSError>) in
+                        switch response.result{
+                        case .Success(let data):
+                            self.children = data.children
+                            
+                            fulfill(self.children)
+                        case .Failure(let error):
+                            return reject(error)
+                        }
+                }
             }
         }
-        return childrenPromise
     }
     
     /**
@@ -76,13 +89,15 @@ public final class ContentNode: Model,ResponseObject,ResponseCollection {
 
     public func getUrl () -> String? {
         
+        let rt = auth?.get("restrictedToken") as! String
+        
         switch(self.subtype) {
         case .FILE:
             let escapeUrl = self.document["path"]!.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            return hostUrl + "/api/delivery" + escapeUrl
+            return "\(hostUrl)/api/delivery\(escapeUrl)?_rt=\(rt)"
         case .APP:
             let escapeUrl = self.document["path"]!.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            return hostUrl + "/api/delivery" + escapeUrl + "/index.html"
+            return "\(hostUrl)/api/delivery\(escapeUrl)/index.html?_rt=\(rt)"
         case .URL:
             return self.document["url"] as? String
         default:
@@ -98,7 +113,9 @@ public final class ContentNode: Model,ResponseObject,ResponseCollection {
 
         if(CONTENT_TYPES.FILE == self.subtype && hasVariant(name)){
             if let url = getUrl() {
-                return url + "?variant=" + name.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                let rt = auth?.get("restrictedToken") as! String
+                let variant = name.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                return "\(url)?variant=\(variant)&_rt=\(rt)"
             }
         }
         

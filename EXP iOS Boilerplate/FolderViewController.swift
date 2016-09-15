@@ -10,12 +10,12 @@ import UIKit
 import ExpSwift
 
 
-class FolderViewController: UICollectionViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class FolderViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
     var folderUuid = "root"
 
-    var folderArray:[ContentNode] = []
-    var contentArray:[ContentNode] = []
+    var folderArray:[Content] = []
+    var contentArray:[Content] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,24 +23,21 @@ class FolderViewController: UICollectionViewController,UICollectionViewDelegate,
     
     func viewControllerInit() {
         
-        ExpSwift.getContentNode(folderUuid).then { (content: ContentNode) -> Void  in
+        ExpSwift.getContent(folderUuid).then { (content: Content) -> Void  in
             self.title = content.get("path") as? String
-            
-            content.getChildren().then { (children: [ContentNode]) -> Void in
-                for child in children {
+            content.getChildren().then { (children: [Content]) -> Void in
+                for child in children{
                     if (child.get("subtype") as? String == "scala:content:folder") {
                         self.folderArray.append(child)
                     } else {
                         self.contentArray.append(child)
                     }
                 }
-                
                 self.collectionView!.reloadData()
-            }.catch { error in
-                println(error)
+                }.error { error in
+                    debugPrint(error)
             }
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -106,13 +103,13 @@ class FolderViewController: UICollectionViewController,UICollectionViewDelegate,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             let indexPaths = self.collectionView!.indexPathsForSelectedItems()
-            let indexPath = indexPaths[0] as! NSIndexPath
+            let indexPath = indexPaths![0] as! NSIndexPath
             let nav = segue.destinationViewController as! UINavigationController
             let vc = nav.viewControllers.last as! DetailViewController
             vc.content = self.contentArray[indexPath.row]
         } else if segue.identifier == "showFolder" {
             let indexPaths = self.collectionView!.indexPathsForSelectedItems()
-            let indexPath = indexPaths[0] as! NSIndexPath
+            let indexPath = indexPaths![0] as! NSIndexPath
             let nav = segue.destinationViewController as! UINavigationController
             let vc = nav.viewControllers.last as! FolderViewController
             vc.folderUuid = self.folderArray[indexPath.row].uuid

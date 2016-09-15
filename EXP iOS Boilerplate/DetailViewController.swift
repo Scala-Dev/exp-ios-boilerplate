@@ -16,16 +16,17 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var flingButton: UIButton!
     
     @IBAction func sendfling(sender: AnyObject) {
-        if let detail: ContentNode = self.content {
-            let channel = ExpSwift.getChannel(SOCKET_CHANNELS.ORGANIZATION) as! OrganizationChannel
-            channel.fling(detail.uuid)
+        if let detail: Content = self.content {
+            let channel = ExpSwift.getChannel("my-channel",system: false,consumerApp: true)
+            let payload:Dictionary<String,AnyObject> = ["uuid":detail.uuid]
+            channel.fling(payload)
         }
     }
-    var content:ContentNode? = nil
+    var content:Content? = nil
 
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail: ContentNode = self.content {
+        if let detail: Content = self.content {
             // set label
             self.title = detail.get("name") as? String
             
